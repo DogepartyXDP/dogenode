@@ -1,0 +1,256 @@
+version: '2'
+
+# Data volumes defined in these services (which must be defined in child templates):
+# bitcoin-data
+# counterparty-data
+# counterblock-data
+# armory-data
+# mongodb-data
+
+services:
+  dogecoin-base:
+    build:
+      context: ./extras/docker/dogecoin
+    volumes:
+      - ./config/dogecoin:/root/.dogecoin-config
+      - dogecoin-data:/root/.dogecoin/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "30"
+
+  dogecoin-base-mainnet:
+    hostname: ${HOSTNAME_BASE}-dc
+    extends:
+      service: dogecoin-base
+    ports:
+      - "8335:8335"
+      - "28835:28835"
+    environment:
+      - PARAMS=-conf=/root/.dogecoin-config/dogecoin.conf
+
+  dogecoin-base-testnet:
+    hostname: ${HOSTNAME_BASE}-dc-t
+    extends:
+      service: dogecoin-base
+    ports:
+      - "18335:18335"
+      - "38835:38835"
+    environment:
+      - PARAMS=-conf=/root/.dogecoin-config/dogecoin.testnet.conf
+
+  addrindexrs-dc-base:
+    build:
+      context: ./src/addrindexrs-dc
+      dockerfile: ./Dockerfile
+    command: cargo run --release -- -vvvv
+    volumes:
+      - ./config/addrindexrs-dc:/root/.config/addrindexrs-dc
+      - addrindexrs-dc-data:/home/user/db/
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "30"
+    environment:
+      - ADDRINDEXRS_JSONRPC_IMPORT=1
+      - ADDRINDEXRS_TXID_LIMIT=15000
+      - "ADDRINDEXRS_COOKIE=rpc:rpc"
+
+  addrindexrs-dc-base-mainnet:
+    hostname: ${HOSTNAME_BASE}-idxd
+    extends:
+      service: addrindexrs-dc-base
+    ports:
+      - "8435:8435"
+    environment:
+      - "ADDRINDEXRS_INDEXER_RPC_ADDR=0.0.0.0:8435"
+      - "ADDRINDEXRS_DAEMON_RPC_ADDR=dogecoin:8335"
+
+  addrindexrs-dc-base-testnet:
+    hostname: ${HOSTNAME_BASE}-idxd-t
+    extends:
+      service: addrindexrs-dc-base
+    ports:
+      - "18435:18435"
+    environment:
+      - "ADDRINDEXRS_INDEXER_RPC_ADDR=0.0.0.0:18435"
+      - ADDRINDEXRS_NETWORK=testnet
+      - "ADDRINDEXRS_DAEMON_RPC_ADDR=dogecoin-testnet:18335"
+
+  dogeparty-base:
+    build:
+      context: ./src/dogeparty-lib
+    volumes:
+      - ./config/dogeparty:/root/.config/dogeparty
+      - dogeparty-data:/root/.local/share/dogeparty
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "50"
+
+  dogeparty-base-mainnet:
+    hostname: ${HOSTNAME_BASE}-dp
+    extends:
+      service: dogeparty-base
+    ports:
+      - "4005:4005"
+    environment:
+      - PARAMS=--config-file=/root/.config/dogeparty/server.conf
+
+  dogeparty-base-testnet:
+    hostname: ${HOSTNAME_BASE}-dp-t
+    extends:
+      service: dogeparty-base
+    ports:
+      - "14005:14005"
+    environment:
+      - PARAMS=--config-file=/root/.config/dogeparty/server.testnet.conf
+
+  #counterblock-base:
+  #  build:
+  #    context: ./src/counterblock
+  #  volumes:
+  #    - ./config/counterblock:/root/.config/counterblock
+  #    - counterblock-data:/root/.local/share/counterblock
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "50"
+
+  #counterblock-base-mainnet:
+  #  hostname: ${HOSTNAME_BASE}-cb
+  #  extends:
+  #    service: counterblock-base
+  #  ports:
+  #    - "4100:4100"
+  #  environment:
+  #    - PARAMS=--config-file=/root/.config/counterblock/server.conf
+
+  #counterblock-base-testnet:
+  #  hostname: ${HOSTNAME_BASE}-cb-t
+  #  extends:
+  #    service: counterblock-base
+  #  ports:
+  #    - "14100:14100"
+  #    - "14101:14101"
+  #    - "14102:14102"
+  #  environment:
+  #    - PARAMS=--config-file=/root/.config/counterblock/server.testnet.conf
+
+  #armory-utxsvr-base:
+  #  image: counterparty/armory-utxsvr:${FEDNODE_RELEASE_TAG}
+  #  volumes:
+  #    - ./src/armory-utxsvr:/armory-utxsvr
+  #    - armory-data:/root/.armory
+  #    - bitcoin-data:/root/.bitcoin/
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "30"
+
+  #armory-utxsvr-base-mainnet:
+  #  hostname: ${HOSTNAME_BASE}-amry
+  #  extends:
+  #    service: armory-utxsvr-base
+  #  environment:
+  #    - BITCOIND_URL=http://rpc:rpc@bitcoin:8332
+  #    - RPC_HOST=0.0.0.0
+
+  #armory-utxsvr-base-testnet:
+  #  hostname: ${HOSTNAME_BASE}-amry-t
+  #  extends:
+  #    service: armory-utxsvr-base
+  #  environment:
+  #    - BITCOIND_URL=http://rpc:rpc@bitcoin-testnet:18332
+  #    - RPC_HOST=0.0.0.0
+  #    - PARAMS=--testnet
+
+  #counterwallet-base:
+  #  hostname: ${HOSTNAME_BASE}-cw
+  #  build:
+  #    context: ./src/counterwallet
+  #  volumes:
+  #    - ./config/counterwallet/ssl:/ssl_config
+  #    - counterblock-data:/counterblock_data
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "30"
+  #  ports:
+  #    - "80:80"
+  #    - "443:443"
+
+  #mongodb-base:
+  #  hostname: ${HOSTNAME_BASE}-mongo
+  #  image: mongo:3.2
+  #  volumes:
+  #    - mongodb-data:/data/db
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "30"
+  #  ports:
+  #    - ${MONGODB_HOST_INTERFACE}:27017:27017
+
+  #redis-base:
+  #  hostname: ${HOSTNAME_BASE}-redis
+  #  image: redis:3.2
+  #  command: redis-server /usr/local/etc/redis/redis.conf
+  #  volumes:
+  #    - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "30"
+
+  #xcp-proxy-base:
+  #  build:
+  #    context: ./src/xcp-proxy
+  #    dockerfile: ./Dockerfile
+  #  volumes:
+  #    - ./config/xcp-proxy:/root/.config/xcp-proxy
+  #  logging:
+  #    driver: "json-file"
+  #    options:
+  #      max-size: "30m"
+  #      max-file: "30"
+  #  environment:
+  #    - INTERVAL_CHECK_COUNTERPARTY_PARSED=1000
+
+  #xcp-proxy-base-mainnet:
+  #  hostname: ${HOSTNAME_BASE}-prx
+  #  extends:
+  #    service: xcp-proxy-base
+  #  ports:
+  #    - "8097:8097"
+  #  environment:
+  #    - HTTP_PORT=8097
+  #    - ADDRINDEXRS_URL=tcp://addrindexrs:8432
+  #    - BITCOIN_ZMQ_URL=tcp://bitcoin:28832
+  #    - REDIS_URL=redis://redis:6379/8
+  #    - SECRETS_PATH=/root/.config/xcp-proxy/secrets
+
+  #xcp-proxy-base-testnet:
+  #  hostname: ${HOSTNAME_BASE}-prx-t
+  #  extends:
+  #    service: xcp-proxy-base
+  #  ports:
+  #    - "18097:18097"
+  #  environment:
+  #    - HTTP_PORT=18097
+  #    - ADDRINDEXRS_URL=tcp://addrindexrs-testnet:8432
+  #    - BITCOIN_ZMQ_URL=tcp://bitcoin-testnet:38832
+  #    - REDIS_URL=redis://redis:6379/9
+  #    - SECRETS_PATH=/root/.config/xcp-proxy/secrets-testnet
+
+volumes:
+  dogecoin-data:
+  addrindexrs-dc-data:

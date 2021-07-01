@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  dogecoin:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogecoin-base-mainnet
+
+  dogecoin-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogecoin-base-testnet
+
+  addrindexrs-dc:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: addrindexrs-dc-base-mainnet
+
+  addrindexrs-dc-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: addrindexrs-dc-base-testnet
+
+  dogeparty:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeparty-base-mainnet
+    links:
+      - dogecoin
+      - addrindexrs-dc
+
+  dogeparty-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeparty-base-testnet
+    links:
+      - dogecoin-testnet
+      - addrindexrs-dc-testnet
+
+volumes:
+  dogecoin-data:
+  addrindexrs-dc-data:
+  dogeparty-data:
