@@ -1,0 +1,12 @@
+[Default]
+testnet=1
+rpc-host=0.0.0.0
+backend-connect=dogecoin-testnet
+backend-user=rpc
+backend-password=rpc
+dogeparty-connect=dogeparty-testnet
+dogeparty-user=rpc
+dogeparty-password=rpc
+mongodb-connect=mongodb
+redis-connect=redis
+tx-log-file

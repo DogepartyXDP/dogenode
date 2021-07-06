@@ -1,0 +1,11 @@
+[Default]
+rpc-host=0.0.0.0
+backend-connect=dogecoin
+backend-user=rpc
+backend-password=rpc
+dogeparty-connect=dogeparty
+dogeparty-user=rpc
+dogeparty-password=rpc
+mongodb-connect=mongodb
+redis-connect=redis
+tx-log-file
