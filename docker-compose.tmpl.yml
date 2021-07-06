@@ -109,37 +109,37 @@ services:
     environment:
       - PARAMS=--config-file=/root/.config/dogeparty/server.testnet.conf
 
-  #counterblock-base:
-  #  build:
-  #    context: ./src/counterblock
-  #  volumes:
-  #    - ./config/counterblock:/root/.config/counterblock
-  #    - counterblock-data:/root/.local/share/counterblock
-  #  logging:
-  #    driver: "json-file"
-  #    options:
-  #      max-size: "30m"
-  #      max-file: "50"
+  dogeblock-base:
+    build:
+      context: ./src/dogeblock
+    volumes:
+      - ./config/dogeblock:/root/.config/dogeblock
+      - dogeblock-data:/root/.local/share/dogeblock
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "50"
 
-  #counterblock-base-mainnet:
-  #  hostname: ${HOSTNAME_BASE}-cb
-  #  extends:
-  #    service: counterblock-base
-  #  ports:
-  #    - "4100:4100"
-  #  environment:
-  #    - PARAMS=--config-file=/root/.config/counterblock/server.conf
+  dogeblock-base-mainnet:
+    hostname: ${HOSTNAME_BASE}-cb
+    extends:
+      service: dogeblock-base
+    ports:
+      - "4105:4105"
+    environment:
+      - PARAMS=--config-file=/root/.config/dogeblock/server.conf
 
-  #counterblock-base-testnet:
-  #  hostname: ${HOSTNAME_BASE}-cb-t
-  #  extends:
-  #    service: counterblock-base
-  #  ports:
-  #    - "14100:14100"
-  #    - "14101:14101"
-  #    - "14102:14102"
-  #  environment:
-  #    - PARAMS=--config-file=/root/.config/counterblock/server.testnet.conf
+  dogeblock-base-testnet:
+    hostname: ${HOSTNAME_BASE}-cb-t
+    extends:
+      service: dogeblock-base
+    ports:
+      - "14105:14105"
+      - "14106:14106"
+      - "14107:14107"
+    environment:
+      - PARAMS=--config-file=/root/.config/dogeblock/server.testnet.conf
 
   #armory-utxsvr-base:
   #  image: counterparty/armory-utxsvr:${FEDNODE_RELEASE_TAG}
@@ -186,30 +186,30 @@ services:
   #    - "80:80"
   #    - "443:443"
 
-  #mongodb-base:
-  #  hostname: ${HOSTNAME_BASE}-mongo
-  #  image: mongo:3.2
-  #  volumes:
-  #    - mongodb-data:/data/db
-  #  logging:
-  #    driver: "json-file"
-  #    options:
-  #      max-size: "30m"
-  #      max-file: "30"
-  #  ports:
-  #    - ${MONGODB_HOST_INTERFACE}:27017:27017
+  mongodb-base:
+    hostname: ${HOSTNAME_BASE}-mongo
+    image: mongo:3.2
+    volumes:
+      - mongodb-data:/data/db
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "30"
+    ports:
+      - ${MONGODB_HOST_INTERFACE}:27017:27017
 
-  #redis-base:
-  #  hostname: ${HOSTNAME_BASE}-redis
-  #  image: redis:3.2
-  #  command: redis-server /usr/local/etc/redis/redis.conf
-  #  volumes:
-  #    - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
-  #  logging:
-  #    driver: "json-file"
-  #    options:
-  #      max-size: "30m"
-  #      max-file: "30"
+  redis-base:
+    hostname: ${HOSTNAME_BASE}-redis
+    image: redis:3.2
+    command: redis-server /usr/local/etc/redis/redis.conf
+    volumes:
+      - ./config/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "30"
 
   #xcp-proxy-base:
   #  build:
