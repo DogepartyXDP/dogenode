@@ -70,7 +70,7 @@ services:
       - dogeparty
       - mongodb
       - redis
-      - armory-utxsvr
+  #    - armory-utxsvr
 
   dogeblock-testnet:
     extends:
@@ -81,7 +81,7 @@ services:
       - dogeparty-testnet
       - mongodb
       - redis
-      - armory-utxsvr-testnet
+  #    - armory-utxsvr-testnet
 
   dogewallet:
     extends:
