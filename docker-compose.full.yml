@@ -1,0 +1,119 @@
+version: '2'
+
+services:
+  dogecoin:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogecoin-base-mainnet
+
+  dogecoin-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogecoin-base-testnet
+
+  addrindexrs-dc:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: addrindexrs-dc-base-mainnet
+
+  addrindexrs-dc-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: addrindexrs-dc-base-testnet
+
+  dogeparty:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeparty-base-mainnet
+    links:
+      - dogecoin
+      - addrindexrs-dc
+
+  dogeparty-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeparty-base-testnet
+    links:
+      - dogecoin-testnet
+      - addrindexrs-dc-testnet
+
+  mongodb:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: mongodb-base
+
+  redis:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: redis-base
+
+  #armory-utxsvr:
+  #  extends:
+  #    file: docker-compose.tmpl.yml
+  #    service: armory-utxsvr-base-mainnet
+  #  links:
+  #    - dogecoin
+
+  #armory-utxsvr-testnet:
+  #  extends:
+  #    file: docker-compose.tmpl.yml
+  #    service: armory-utxsvr-base-testnet
+  #  links:
+  #    - dogecoin-testnet
+
+  dogeblock:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeblock-base-mainnet
+    links:
+      - dogecoin
+      - dogeparty
+      - mongodb
+      - redis
+      - armory-utxsvr
+
+  dogeblock-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogeblock-base-testnet
+    links:
+      - dogecoin-testnet
+      - dogeparty-testnet
+      - mongodb
+      - redis
+      - armory-utxsvr-testnet
+
+  dogewallet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: dogewallet-base
+    links:
+      - redis
+      - dogeblock
+      - dogeblock-testnet
+
+  #xdp-proxy:
+  #  extends:
+  #    file: docker-compose.tmpl.yml
+  #    service: xdp-proxy-base-mainnet
+  #  links:
+  #    - redis
+  #    - dogecoin
+  #    - dogeparty
+
+  #xdp-proxy-testnet:
+  #  extends:
+  #    file: docker-compose.tmpl.yml
+  #    service: xdp-proxy-base-testnet
+  #  links:
+  #    - redis
+  #    - dogecoin-testnet
+  #    - dogeparty-testnet
+
+volumes:
+  dogecoin-data:
+  addrindexrs-dc-data:
+  dogeparty-data:
+  dogeblock-data:
+  mongodb-data:
+  #armory-data:
