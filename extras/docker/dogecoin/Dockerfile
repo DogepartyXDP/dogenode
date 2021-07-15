@@ -2,6 +2,8 @@ FROM counterparty/base
 
 MAINTAINER Dogeparty Developers <dev@dogeparty.net>
 
+RUN apt-get update && apt-get install -y pv curl
+
 # install dogecoin core
 ENV DOGECOIN_VER="1.14.3"
 ENV DOGECOIN_FOLDER_VER="1.14.3"
