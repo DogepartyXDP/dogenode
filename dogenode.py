@@ -334,9 +334,9 @@ def main():
                    
                 # THIS MUST BE DELETED                 
                 if args.ssh_key:
-                    print("Copying the ssh-key "+args.ssh_key[0])					           
-                    if repo == 'dogeparty-lib':
-                        shutil.copyfile(args.ssh_key[0], repo_dir+'/id_ecdsa')
+                    print("Copying the ssh-key "+args.ssh_key[0])                              
+                    if repo == 'dogeparty-lib' or repo == 'dogewallet':
+                        shutil.copyfile(args.ssh_key[0], repo_dir+'/id_ecdsa')                  
                 else:
                     print("The --ssh-key parameter is needed. Repositories are private")
                     sys.exit(1)
