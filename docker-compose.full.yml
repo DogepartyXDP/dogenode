@@ -47,20 +47,6 @@ services:
       file: docker-compose.tmpl.yml
       service: redis-base
 
-  #armory-utxsvr:
-  #  extends:
-  #    file: docker-compose.tmpl.yml
-  #    service: armory-utxsvr-base-mainnet
-  #  links:
-  #    - dogecoin
-
-  #armory-utxsvr-testnet:
-  #  extends:
-  #    file: docker-compose.tmpl.yml
-  #    service: armory-utxsvr-base-testnet
-  #  links:
-  #    - dogecoin-testnet
-
   dogeblock:
     extends:
       file: docker-compose.tmpl.yml
@@ -70,7 +56,6 @@ services:
       - dogeparty
       - mongodb
       - redis
-  #    - armory-utxsvr
 
   dogeblock-testnet:
     extends:
@@ -81,8 +66,7 @@ services:
       - dogeparty-testnet
       - mongodb
       - redis
-  #    - armory-utxsvr-testnet
-
+  
   dogewallet:
     extends:
       file: docker-compose.tmpl.yml
@@ -92,24 +76,21 @@ services:
       - dogeblock
       - dogeblock-testnet
 
-  #xdp-proxy:
-  #  extends:
-  #    file: docker-compose.tmpl.yml
-  #    service: xdp-proxy-base-mainnet
-  #  links:
-  #    - redis
-  #    - dogecoin
-  #    - dogeparty
-
-  #xdp-proxy-testnet:
-  #  extends:
-  #    file: docker-compose.tmpl.yml
-  #    service: xdp-proxy-base-testnet
-  #  links:
-  #    - redis
-  #    - dogecoin-testnet
-  #    - dogeparty-testnet
-
+  http-addrindexrs-dc:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: http-addrindexrs-dc-base-mainnet
+    links:
+      - dogecoin
+      - addrindexrs-dc
+      
+  http-addrindexrs-dc-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: http-addrindexrs-dc-base-testnet
+    links:
+      - dogecoin-testnet
+      - addrindexrs-dc-testnet    
 volumes:
   dogecoin-data:
   addrindexrs-dc-data:

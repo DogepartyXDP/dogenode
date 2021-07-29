@@ -30,24 +30,24 @@ REPO_BASE_HTTPS = "https://github.com/DogepartyXDP/{}.git"
 REPO_BASE_SSH = "git@github.com:DogepartyXDP/{}.git"
 REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc']
 REPOS_DOGEBLOCK = REPOS_BASE + ['dogeblock', ]
-REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'armory-utxsvr', 'xdp-proxy']
+REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'http-addrindexrs-dc']
 
 HOST_PORTS_USED = {
     'base': [8335, 18335, 8435, 18435, 4005, 14005],
     'base_extdoge': [8435, 18435, 4005, 14005],
     'dogeblock': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 27017],
-    'full': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 80, 443, 27017]
+    'full': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 80, 443, 27017, 8336, 18336]
 }
 VOLUMES_USED = {
     'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
     'base_extdoge': ['addrindexrs-dc-data', 'dogeparty-data'],
     'dogeblock': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
-    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data', 'armory-data', 'xcp-proxy']
+    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
 }
 UPDATE_CHOICES = ['addrindexrs-dc', 'addrindexrs-dc-testnet',
                   'dogeparty', 'dogeparty-testnet', 'dogeblock',
-                  'dogeblock-testnet', 'dogewallet', 'armory-utxsvr',
-                  'armory-utxsvr-testnet', 'xcp-proxy', 'xcp-proxy-testnet']
+                  'dogeblock-testnet', 'dogewallet', 'http-addrindexrs-dc',
+				  'http-addrindexrs-dc-testnet']
 REPARSE_CHOICES = ['dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet']
 ROLLBACK_CHOICES = ['dogeparty', 'dogeparty-testnet']
 VACUUM_CHOICES = ['dogeparty', 'dogeparty-testnet']
