@@ -331,16 +331,6 @@ def main():
                     os.system("{} -u {} bash -c \"{}\"".format(SUDO_CMD, SESSION_USER, git_cmd))
                 else:
                     os.system(git_cmd)
-                   
-                # THIS MUST BE DELETED                 
-                if args.ssh_key:
-                    print("Copying the ssh-key "+args.ssh_key[0])                              
-                    if repo == 'dogeparty-lib' or repo == 'dogewallet':
-                        shutil.copyfile(args.ssh_key[0], repo_dir+'/id_ecdsa')                  
-                else:
-                    print("The --ssh-key parameter is needed. Repositories are private")
-                    sys.exit(1)
-    
 
         # make sure we have the newest image for each service
         if use_docker_pulls:
