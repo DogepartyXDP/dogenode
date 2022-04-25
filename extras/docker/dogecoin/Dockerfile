@@ -5,9 +5,9 @@ MAINTAINER Dogeparty Developers <dev@dogeparty.net>
 RUN apt-get update && apt-get install -y pv curl
 
 # install dogecoin core
-ENV DOGECOIN_VER="1.14.4"
-ENV DOGECOIN_FOLDER_VER="1.14.4"
-ENV DOGECOIN_SHASUM="6266235abe4bcbd41ea57bdf42f11ef89aa69f0386e8c8846d5228af69e7fa13"
+ENV DOGECOIN_VER="1.14.5"
+ENV DOGECOIN_FOLDER_VER="1.14.5"
+ENV DOGECOIN_SHASUM="17a03f019168ec5283947ea6fbf1a073c1d185ea9edacc2b91f360e1c191428e"
 
 WORKDIR /tmp
 
