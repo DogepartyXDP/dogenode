@@ -50,6 +50,7 @@ UPDATE_CHOICES = ['addrindexrs-dc', 'addrindexrs-dc-testnet',
 				  'http-addrindexrs-dc-testnet']
 REPARSE_CHOICES = ['dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet']
 ROLLBACK_CHOICES = ['dogeparty', 'dogeparty-testnet']
+VALIDATE_CHOICES = ['dogeparty', 'dogeparty-testnet']
 VACUUM_CHOICES = ['dogeparty', 'dogeparty-testnet']
 SHELL_CHOICES = UPDATE_CHOICES + ['mongodb', 'redis', 'dogecoin', 'dogecoin-testnet', 'addrindexrs-dc', 'addrindexrs-dc-testnet']
 
@@ -106,6 +107,7 @@ def parse_args():
     parser_install.add_argument("--mongodb-interface", default="127.0.0.1",
         help="Bind mongo to this host interface. Localhost by default, enter 0.0.0.0 for all host interfaces.")
     parser_install.add_argument("--ssh-key", action="store", nargs=1, help="The ecdsa ssh key to download projects from github")
+    parser_install.add_argument("--no-bootstrap", action="store_true", help="It doesn't download any bootstrap, so the parse will begin from scratch")
 
     parser_uninstall = subparsers.add_parser('uninstall', help="uninstall dogenode services")
 
@@ -124,6 +126,9 @@ def parse_args():
     parser_rollback = subparsers.add_parser('rollback', help="rollback a dogeparty-server")
     parser_rollback.add_argument("block_index", help="the index of the last known good block")
     parser_rollback.add_argument("service", choices=ROLLBACK_CHOICES, help="The name of the service to rollback")
+
+    parser_validate = subparsers.add_parser('validate', help="makes a database integrity check in dogeparty-server")
+    parser_validate.add_argument("service", choices=VALIDATE_CHOICES, help="The name of the service to make the integrity check")
 
     parser_vacuum = subparsers.add_parser('vacuum', help="vacuum the dogeparty-server database for better runtime performance")
     parser_vacuum.add_argument("service", choices=VACUUM_CHOICES, help="The name of the service whose database to vacuum")
@@ -151,6 +156,7 @@ def parse_args():
     parser_rebuild = subparsers.add_parser('rebuild', help="rebuild dogenode services (i.e. remove and refetch/install docker containers)")
     parser_rebuild.add_argument("services", nargs='*', default='', help="The name of the service or services to rebuild (or blank for all services)")
     parser_rebuild.add_argument("--mongodb-interface", default="127.0.0.1")
+    parser_rebuild.add_argument("--no-cache", action="store_true", help="Rebuilds service or services images from scratch before installing containers")
 
     parser_docker_clean = subparsers.add_parser('docker_clean', help="remove ALL docker containers and cached images (use with caution!)")
 
@@ -307,6 +313,7 @@ def main():
     os.environ['DOGENODE_RELEASE_TAG'] = 'latest' if repo_branch == 'master' else repo_branch
     os.environ['HOSTNAME_BASE'] = socket.gethostname()
     os.environ['MONGODB_HOST_INTERFACE'] = getattr(args, 'mongodb_interface', "127.0.0.1")
+    os.environ["NO_BOOTSTRAP"] = "true" if hasattr(args, "no_bootstrap") and args.no_bootstrap else "false"
 
     # perform action for the specified command
     if args.command == 'install':
@@ -380,6 +387,9 @@ def main():
     elif args.command == 'rollback':
         run_compose_cmd("stop {}".format(args.service))
         run_compose_cmd("run -e COMMAND='rollback {}' {}".format(args.block_index, args.service))
+    elif args.command == 'validate':
+        run_compose_cmd("stop {}".format(args.service))
+        run_compose_cmd("run -e COMMAND=checkdb {}".format(args.service))
     elif args.command == 'vacuum':
         run_compose_cmd("stop {}".format(args.service))
         run_compose_cmd("run -e COMMAND=vacuum {}".format(args.service))
@@ -466,6 +476,10 @@ def main():
             run_compose_cmd("pull --ignore-pull-failures {}".format(' '.join(args.services)))
         else:
             print("skipping docker pull command")
+        
+        if args.no_cache:
+            run_compose_cmd("build --no-cache {}".format(' '.join(args.services)))
+            
         run_compose_cmd("up -d --build --force-recreate --no-deps {}".format(' '.join(args.services)))
 
 

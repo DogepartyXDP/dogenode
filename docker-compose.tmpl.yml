@@ -1,9 +1,9 @@
 version: '2'
 
 # Data volumes defined in these services (which must be defined in child templates):
-# bitcoin-data
-# counterparty-data
-# counterblock-data
+# dogecoin-data
+# dogeparty-data
+# dogeblock-data
 # armory-data
 # mongodb-data
 
@@ -99,7 +99,9 @@ services:
       - "4005:4005"
     environment:
       - PARAMS=--config-file=/root/.config/dogeparty/server.conf
-
+      - DOGE_NETWORK=mainnet
+      - NO_BOOTSTRAP=${NO_BOOTSTRAP}
+      
   dogeparty-base-testnet:
     hostname: ${HOSTNAME_BASE}-dp-t
     extends:
@@ -108,6 +110,8 @@ services:
       - "14005:14005"
     environment:
       - PARAMS=--config-file=/root/.config/dogeparty/server.testnet.conf
+      - DOGE_NETWORK=testnet
+      - NO_BOOTSTRAP=${NO_BOOTSTRAP}
 
   dogeblock-base:
     build:
