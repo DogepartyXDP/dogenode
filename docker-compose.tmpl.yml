@@ -215,6 +215,47 @@ services:
     environment:
       - DOTENV_CONFIG_PATH=/root/.config/http-addrindexrs-dc/server.testnet.conf    
 
+
+  xdp-proxy-base:
+    build:
+      context: ./src/xdp-proxy
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./config/xdp-proxy:/root/.config/xdp-proxy
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "30m"
+        max-file: "30"
+    environment:
+      - INTERVAL_CHECK_DOGEPARTY_PARSED=1000
+
+  xdp-proxy-base-mainnet:
+    hostname: ${HOSTNAME_BASE}-prx
+    extends:
+      service: xdp-proxy-base
+    ports:
+      - "8095:8095"
+    environment:
+      - HTTP_PORT=8097
+      - ADDRINDEXRS_URL=tcp://addrindexrs:8435
+      - BITCOIN_ZMQ_URL=tcp://bitcoin:28835
+      - REDIS_URL=redis://redis:6379/8
+      - SECRETS_PATH=/root/.config/xdp-proxy/secrets
+
+  xdp-proxy-base-testnet:
+    hostname: ${HOSTNAME_BASE}-prx-t
+    extends:
+      service: xdp-proxy-base
+    ports:
+      - "18095:18095"
+    environment:
+      - HTTP_PORT=18097
+      - ADDRINDEXRS_URL=tcp://addrindexrs-testnet:18435
+      - BITCOIN_ZMQ_URL=tcp://bitcoin-testnet:38835
+      - REDIS_URL=redis://redis:6379/9
+      - SECRETS_PATH=/root/.config/xdp-proxy/secrets-testnet
+
 volumes:
   dogecoin-data:
   addrindexrs-dc-data:

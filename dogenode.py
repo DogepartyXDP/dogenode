@@ -30,7 +30,7 @@ REPO_BASE_HTTPS = "https://github.com/DogepartyXDP/{}.git"
 REPO_BASE_SSH = "git@github.com:DogepartyXDP/{}.git"
 REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc']
 REPOS_DOGEBLOCK = REPOS_BASE + ['dogeblock', ]
-REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'http-addrindexrs-dc']
+REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'http-addrindexrs-dc', 'xdp-proxy']
 
 HOST_PORTS_USED = {
     'base': [8335, 18335, 8435, 18435, 4005, 14005],
@@ -42,12 +42,12 @@ VOLUMES_USED = {
     'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
     'base_extdoge': ['addrindexrs-dc-data', 'dogeparty-data'],
     'dogeblock': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
-    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
+    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data', 'xdp-proxy']
 }
 UPDATE_CHOICES = ['addrindexrs-dc', 'addrindexrs-dc-testnet',
                   'dogeparty', 'dogeparty-testnet', 'dogeblock',
                   'dogeblock-testnet', 'dogewallet', 'http-addrindexrs-dc',
-				  'http-addrindexrs-dc-testnet']
+				  'http-addrindexrs-dc-testnet', 'xdp-proxy', 'xdp-proxy-testnet']
 REPARSE_CHOICES = ['dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet']
 ROLLBACK_CHOICES = ['dogeparty', 'dogeparty-testnet']
 VALIDATE_CHOICES = ['dogeparty', 'dogeparty-testnet']
