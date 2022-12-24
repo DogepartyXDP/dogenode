@@ -37,6 +37,11 @@ services:
       - dogecoin-testnet
       - addrindexrs-dc-testnet
 
+  redis:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: redis-base
+
   http-addrindexrs-dc:
     extends:
       file: docker-compose.tmpl.yml
