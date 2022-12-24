@@ -90,7 +90,26 @@ services:
       service: http-addrindexrs-dc-base-testnet
     links:
       - dogecoin-testnet
-      - addrindexrs-dc-testnet    
+      - addrindexrs-dc-testnet
+
+  xdp-proxy:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: xdp-proxy-base-mainnet
+    links:
+      - redis
+      - dogecoin
+      - dogeparty
+
+  xdp-proxy-testnet:
+    extends:
+      file: docker-compose.tmpl.yml
+      service: xdp-proxy-base-testnet
+    links:
+      - redis
+      - dogecoin-testnet
+      - dogeparty-testnet
+      
 volumes:
   dogecoin-data:
   addrindexrs-dc-data:
