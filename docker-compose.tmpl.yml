@@ -215,7 +215,6 @@ services:
     environment:
       - DOTENV_CONFIG_PATH=/root/.config/http-addrindexrs-dc/server.testnet.conf    
 
-
   xdp-proxy-base:
     build:
       context: ./src/xdp-proxy
@@ -237,7 +236,7 @@ services:
     ports:
       - "8095:8095"
     environment:
-      - HTTP_PORT=8097
+      - HTTP_PORT=8095
       - ADDRINDEXRS_URL=tcp://addrindexrs:8435
       - BITCOIN_ZMQ_URL=tcp://bitcoin:28835
       - REDIS_URL=redis://redis:6379/8
@@ -250,7 +249,7 @@ services:
     ports:
       - "18095:18095"
     environment:
-      - HTTP_PORT=18097
+      - HTTP_PORT=18095
       - ADDRINDEXRS_URL=tcp://addrindexrs-testnet:18435
       - BITCOIN_ZMQ_URL=tcp://bitcoin-testnet:38835
       - REDIS_URL=redis://redis:6379/9
