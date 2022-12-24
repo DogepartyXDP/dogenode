@@ -39,7 +39,7 @@ HOST_PORTS_USED = {
     'full': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 80, 443, 27017, 8336, 18336]
 }
 VOLUMES_USED = {
-    'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'xdp-proxy'],
+    'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
     'base_extdoge': ['addrindexrs-dc-data', 'dogeparty-data'],
     'dogeblock': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
     'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
