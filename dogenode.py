@@ -28,7 +28,7 @@ DOGENODE_CONFIG_PATH = os.path.join(SCRIPTDIR, DOGENODE_CONFIG_FILE)
 
 REPO_BASE_HTTPS = "https://github.com/DogepartyXDP/{}.git"
 REPO_BASE_SSH = "git@github.com:DogepartyXDP/{}.git"
-REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc']
+REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc','xdp-proxy']
 REPOS_DOGEBLOCK = REPOS_BASE + ['dogeblock', ]
 REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'http-addrindexrs-dc', 'xdp-proxy']
 
@@ -39,10 +39,10 @@ HOST_PORTS_USED = {
     'full': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 80, 443, 27017, 8336, 18336]
 }
 VOLUMES_USED = {
-    'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
+    'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'xdp-proxy'],
     'base_extdoge': ['addrindexrs-dc-data', 'dogeparty-data'],
     'dogeblock': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
-    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data', 'xdp-proxy']
+    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
 }
 UPDATE_CHOICES = ['addrindexrs-dc', 'addrindexrs-dc-testnet',
                   'dogeparty', 'dogeparty-testnet', 'dogeblock',
