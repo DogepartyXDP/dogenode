@@ -202,7 +202,7 @@ services:
     extends:
       service: http-addrindexrs-dc-base
     ports:
-      - "8336:8336"
+      - "8096:8096"
     environment:
       - DOTENV_CONFIG_PATH=/root/.config/http-addrindexrs-dc/server.conf
       
@@ -211,7 +211,7 @@ services:
     extends:
       service: http-addrindexrs-dc-base
     ports:
-      - "18336:18336"
+      - "18096:18096"
     environment:
       - DOTENV_CONFIG_PATH=/root/.config/http-addrindexrs-dc/server.testnet.conf    
 
