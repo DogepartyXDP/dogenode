@@ -28,31 +28,28 @@ DOGENODE_CONFIG_PATH = os.path.join(SCRIPTDIR, DOGENODE_CONFIG_FILE)
 
 REPO_BASE_HTTPS = "https://github.com/DogepartyXDP/{}.git"
 REPO_BASE_SSH = "git@github.com:DogepartyXDP/{}.git"
-REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc','xdp-proxy']
-REPOS_DOGEBLOCK = REPOS_BASE + ['dogeblock', ]
-REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet', 'http-addrindexrs-dc', 'xdp-proxy']
+REPOS_BASE = ['dogeparty-lib', 'dogeparty-cli', 'addrindexrs-dc','http-addrindexrs-dc','xdp-proxy']
+REPOS_DOGEBLOCK = REPOS_BASE + ['dogeblock']
+REPOS_FULL = REPOS_DOGEBLOCK + ['dogewallet']
 
 HOST_PORTS_USED = {
-    'base': [8335, 18335, 8435, 18435, 4005, 14005, 8095, 18095],
-    'base_extdoge': [8435, 18435, 4005, 14005, 8095, 18095],
-    'dogeblock': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 8095, 18095, 27017],
-    'full': [8335, 18335, 8435, 18435, 4005, 14005, 4105, 14105, 80, 443, 27017, 8336, 18336, 8095, 18095]
+    'base':         [8335, 18335, 8435, 18435, 4005, 14005, 8336, 18336, 8095, 18095],
+    'base_extdoge': [8335, 18335, 8435, 18435, 4005, 14005, 8336, 18336, 8095, 18095],
+    'dogeblock':    [8335, 18335, 8435, 18435, 4005, 14005, 8336, 18336, 8095, 18095, 4105, 14105, 27017],
+    'full':         [8335, 18335, 8435, 18435, 4005, 14005, 8336, 18336, 8095, 18095, 4105, 14105, 27017, 80, 443]
 }
 VOLUMES_USED = {
-    'base': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
+    'base':         ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data'],
     'base_extdoge': ['addrindexrs-dc-data', 'dogeparty-data'],
-    'dogeblock': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
-    'full': ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
+    'dogeblock':    ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data'],
+    'full':         ['dogecoin-data', 'addrindexrs-dc-data', 'dogeparty-data', 'dogeblock-data', 'mongodb-data']
 }
-UPDATE_CHOICES = ['addrindexrs-dc', 'addrindexrs-dc-testnet',
-                  'dogeparty', 'dogeparty-testnet', 'dogeblock',
-                  'dogeblock-testnet', 'dogewallet', 'http-addrindexrs-dc',
-				  'http-addrindexrs-dc-testnet', 'xdp-proxy', 'xdp-proxy-testnet']
-REPARSE_CHOICES = ['dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet']
+UPDATE_CHOICES   = ['addrindexrs-dc', 'addrindexrs-dc-testnet', 'dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet', 'dogewallet', 'http-addrindexrs-dc', 'http-addrindexrs-dc-testnet', 'xdp-proxy', 'xdp-proxy-testnet']
+REPARSE_CHOICES  = ['dogeparty', 'dogeparty-testnet', 'dogeblock', 'dogeblock-testnet']
 ROLLBACK_CHOICES = ['dogeparty', 'dogeparty-testnet']
 VALIDATE_CHOICES = ['dogeparty', 'dogeparty-testnet']
-VACUUM_CHOICES = ['dogeparty', 'dogeparty-testnet']
-SHELL_CHOICES = UPDATE_CHOICES + ['mongodb', 'redis', 'dogecoin', 'dogecoin-testnet', 'addrindexrs-dc', 'addrindexrs-dc-testnet']
+VACUUM_CHOICES   = ['dogeparty', 'dogeparty-testnet']
+SHELL_CHOICES    = UPDATE_CHOICES + ['mongodb', 'redis', 'dogecoin', 'dogecoin-testnet', 'addrindexrs-dc', 'addrindexrs-dc-testnet']
 
 CONFIGCHECK_FILES_BASE_EXTERNAL_DOGECOIN = [
     ['addrindexrs-dc', 'addrindexrs-dc.env.default', 'addrindexrs-dc.env'],
